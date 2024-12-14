@@ -56,7 +56,7 @@ public class StudentController {
     }
 
     @GetMapping("filter")
-    public ResponseEntity<Collection<Student>> filterByAge(@RequestParam int age) {
+    public ResponseEntity<Collection<Student>> filterByAge(@RequestParam("age") int age) {
         return ResponseEntity.ok(service.filterByAge(age));
     }
 }

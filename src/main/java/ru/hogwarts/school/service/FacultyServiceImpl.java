@@ -1,8 +1,10 @@
 package ru.hogwarts.school.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -12,25 +14,24 @@ import java.util.stream.Collectors;
 
 @Service
 public class FacultyServiceImpl implements FacultyService {
-    private final Map<Long, Faculty> facultyMap = new HashMap<>();
-    private int count = 0;
+
+    private final FacultyRepository repository;
+
+    public FacultyServiceImpl(FacultyRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public Faculty post(Faculty faculty) {
         if (faculty == null) {
             return null;
         }
-        faculty.setId(++count);
-        facultyMap.put((long) count, faculty);
-        return faculty;
+        return repository.save(faculty);
     }
 
     @Override
     public Faculty findById(long id) {
-        if (!facultyMap.containsKey(id)) {
-            return null;
-        }
-        return facultyMap.get(id);
+        return repository.findById(id).get();
     }
 
     @Override
@@ -38,29 +39,22 @@ public class FacultyServiceImpl implements FacultyService {
         if (faculty == null) {
             return null;
         }
-        if (!facultyMap.containsKey(faculty.getId())) {
-            return null;
-        }
-        facultyMap.put(faculty.getId(), faculty);
-        return faculty;
+        return repository.save(faculty);
     }
 
     @Override
-    public Faculty deleteById(long id) {
-        if (!facultyMap.containsKey(id)) {
-            return null;
-        }
-        return facultyMap.remove(id);
+    public void deleteById(long id) {
+        repository.deleteById(id);
     }
 
     @Override
     public Collection<Faculty> findAll() {
-        return List.copyOf(facultyMap.values());
+        return List.copyOf(repository.findAll());
     }
 
     @Override
     public Collection<Faculty> filterByColor(String color) {
-        return facultyMap.values().stream()
+        return repository.findAll().stream()
                 .filter(e -> e.getColor().equals(color))
                 .collect(Collectors.toList());
     }

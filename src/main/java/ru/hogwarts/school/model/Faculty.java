@@ -6,15 +6,18 @@ import jakarta.persistence.Id;
 
 import java.util.Objects;
 
-//@Entity(name = "faculties")
+@Entity(name = "faculties")
 public class Faculty {
 
-    //@Id
-    //@GeneratedValue
+    @Id
+    @GeneratedValue
     private long id;
 
     private String name;
     private String color;
+
+    public Faculty() {
+    }
 
     public Faculty(long id, String name, String color) {
         this.id = id;
