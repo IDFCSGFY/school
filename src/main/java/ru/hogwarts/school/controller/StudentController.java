@@ -34,7 +34,7 @@ public class StudentController {
     @GetMapping("{id}")
     public ResponseEntity<Student> get(@PathVariable long id) {
         Student target = service.findById(id);
-        if (target==null) {
+        if (target == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(target);
