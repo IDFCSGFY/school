@@ -26,18 +26,19 @@ public class FacultyController {
         return ResponseEntity.ok(target);
     }
 
+    @GetMapping(params = {"name"})
+    public ResponseEntity<Faculty> findFacultyByName(@RequestParam(required = false) String name) {
+        return ResponseEntity.ok(service.findByName(name));
+    }
+
+    @GetMapping(params = {"color"})
+    public ResponseEntity<Faculty> findFacultyByColor(@RequestParam(required = false) String color) {
+        return ResponseEntity.ok(service.findByColor(color));
+    }
+
     @GetMapping
     public ResponseEntity<Collection<Faculty>> all() {
         return ResponseEntity.ok(service.findAll());
-    }
-
-    @GetMapping("{id}")
-    public ResponseEntity<Faculty> get(@PathVariable long id) {
-        Faculty target = service.findById(id);
-        if (target == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(target);
     }
 
     @PutMapping
@@ -49,14 +50,23 @@ public class FacultyController {
         return ResponseEntity.ok(target);
     }
 
+    @GetMapping("filter")
+    public ResponseEntity<Collection<Faculty>> filterByColor(@RequestParam String color) {
+        return ResponseEntity.ok(service.filterByColor(color));
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<Faculty> delete(@PathVariable long id) {
         service.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("filter")
-    public ResponseEntity<Collection<Faculty>> filterByColor(@RequestParam("color") String color) {
-        return ResponseEntity.ok(service.filterByColor(color));
+    @GetMapping("{id}")
+    public ResponseEntity<Faculty> get(@PathVariable long id) {
+        Faculty target = service.findById(id);
+        if (target == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(target);
     }
 }
