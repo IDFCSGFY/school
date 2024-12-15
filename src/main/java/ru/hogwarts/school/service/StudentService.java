@@ -16,4 +16,6 @@ public interface StudentService {
     Collection<Student> findAll();
 
     Collection<Student> filterByAge(int age);
+
+    Collection<Student> filterByAge(int age, int ageMax);
 }
