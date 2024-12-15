@@ -11,7 +11,7 @@ public interface StudentService {
 
     Student edit(Student student);
 
-    Student deleteById(long id);
+    void deleteById(long id);
 
     Collection<Student> findAll();
 

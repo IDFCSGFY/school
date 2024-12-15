@@ -1,7 +1,9 @@
 package ru.hogwarts.school.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,25 +13,24 @@ import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-    private final Map<Long, Student> studentMap = new HashMap<>();
-    private int count = 0;
+
+    private final StudentRepository repository;
+
+    public StudentServiceImpl(StudentRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public Student post(Student student) {
         if (student == null) {
             return null;
         }
-        student.setId(++count);
-        studentMap.put((long) count, student);
-        return student;
+        return repository.save(student);
     }
 
     @Override
     public Student findById(long id) {
-        if (!studentMap.containsKey(id)) {
-            return null;
-        }
-        return studentMap.get(id);
+        return repository.findById(id).get();
     }
 
     @Override
@@ -37,29 +38,22 @@ public class StudentServiceImpl implements StudentService {
         if (student == null) {
             return null;
         }
-        if (!studentMap.containsKey(student.getId())) {
-            return null;
-        }
-        studentMap.put(student.getId(), student);
-        return student;
+        return repository.save(student);
     }
 
     @Override
-    public Student deleteById(long id) {
-        if (!studentMap.containsKey(id)) {
-            return null;
-        }
-        return studentMap.remove(id);
+    public void deleteById(long id) {
+        repository.deleteById(id);
     }
 
     @Override
     public Collection<Student> findAll() {
-        return List.copyOf(studentMap.values());
+        return List.copyOf(repository.findAll());
     }
 
     @Override
     public Collection<Student> filterByAge(int age) {
-        return studentMap.values().stream()
+        return repository.findAll().stream()
                 .filter(e -> e.getAge() == age)
                 .collect(Collectors.toList());
     }
