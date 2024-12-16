@@ -3,6 +3,7 @@ package ru.hogwarts.school.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyService;
 
 import java.util.Collection;
@@ -26,9 +27,14 @@ public class FacultyController {
         return ResponseEntity.ok(target);
     }
 
-    @GetMapping
-    public ResponseEntity<Collection<Faculty>> all() {
-        return ResponseEntity.ok(service.findAll());
+    @GetMapping("filter")
+    public ResponseEntity<Collection<Faculty>> filterByColor(@RequestParam String color) {
+        return ResponseEntity.ok(service.filterByColor(color));
+    }
+
+    @GetMapping("{id}/students")
+    public ResponseEntity<Collection<Student>> findStudentsOfFaculty(@PathVariable long id) {
+        return ResponseEntity.ok(service.findStudentsOfFacultyById(id));
     }
 
     @GetMapping("{id}")
@@ -38,6 +44,21 @@ public class FacultyController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(target);
+    }
+
+    @GetMapping(params = {"name"})
+    public ResponseEntity<Faculty> findFacultyByName(@RequestParam(required = false) String name) {
+        return ResponseEntity.ok(service.findByName(name));
+    }
+
+    @GetMapping(params = {"color"})
+    public ResponseEntity<Faculty> findFacultyByColor(@RequestParam(required = false) String color) {
+        return ResponseEntity.ok(service.findByColor(color));
+    }
+
+    @GetMapping
+    public ResponseEntity<Collection<Faculty>> all() {
+        return ResponseEntity.ok(service.findAll());
     }
 
     @PutMapping
@@ -53,10 +74,5 @@ public class FacultyController {
     public ResponseEntity<Faculty> delete(@PathVariable long id) {
         service.deleteById(id);
         return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("filter")
-    public ResponseEntity<Collection<Faculty>> filterByColor(@RequestParam("color") String color) {
-        return ResponseEntity.ok(service.filterByColor(color));
     }
 }
