@@ -54,9 +54,10 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Collection<Student> filterByAge(int age) {
-        return repository.findAll().stream()
-                .filter(e -> e.getAge() == age)
-                .collect(Collectors.toList());
+//        return repository.findAll().stream()
+//                .filter(e -> e.getAge() == age)
+//                .collect(Collectors.toList());
+        return repository.findByAge(age);
     }
 
     @Override
