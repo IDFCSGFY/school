@@ -199,8 +199,6 @@ class StudentControllerTest {
 
     @Test
     void delete_shouldReturnDeletedStudent() throws Exception {
-        Student s = new Student(ID, NAME, AGE);
-
         mockMvc.perform(MockMvcRequestBuilders
                         .delete(URL + "/" + ID))
                 .andExpectAll(
