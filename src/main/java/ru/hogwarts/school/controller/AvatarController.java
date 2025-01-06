@@ -12,8 +12,12 @@ import ru.hogwarts.school.service.AvatarServiceImpl;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("student")
 public class AvatarController {
 
     private final AvatarServiceImpl avatarService;
@@ -31,11 +35,6 @@ public class AvatarController {
     @GetMapping("{id}/avatar/formated")
     public ResponseEntity<byte[]> downloadFormatedAvatar(@PathVariable Long id) {
         Avatar avatar = avatarService.findAvatarByStudentId(id);
-        if (avatar == null) {
-            System.out.println("аватар нулл");
-        } else {
-            System.out.println("аватар не нулл");
-        }
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(avatar.getMediaType()));
@@ -60,4 +59,10 @@ public class AvatarController {
             bis.transferTo(bos);
         }
     }
+
+    @GetMapping("all/avatars")
+    public ResponseEntity<Collection<Avatar>> getAllAvatarsPaged(@RequestParam("num") Integer pageNumber, @RequestParam("size") Integer pageSize) {
+        return ResponseEntity.ok(avatarService.findAll(pageNumber, pageSize));
+    }
 }
+
