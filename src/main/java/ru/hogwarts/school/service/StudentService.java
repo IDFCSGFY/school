@@ -21,4 +21,10 @@ public interface StudentService {
     Collection<Student> filterByAge(int age, int ageMax);
 
     Faculty findFacultyOfStudentById(long id);
+
+    Integer countAll();
+
+    Double getAverageAgeOfAllStudents();
+
+    Collection<Student> getLastFiveStudents();
 }
