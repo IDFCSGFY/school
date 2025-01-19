@@ -1,2 +1,2 @@
 SELECT students.name, students.age, faculties.name FROM students JOIN faculties ON students.faculty = faculties.id;
-SELECT students.name, avatars.file_path FROM students JOIN avatars ON avatars.student_id = students.id WHERE avatars. IS NOT NULL;
+SELECT students.name, avatars.file_path FROM students JOIN avatars ON avatars.student_id = students.id WHERE students.avatar_id IS NOT NULL;
