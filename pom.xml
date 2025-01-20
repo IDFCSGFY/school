@@ -55,8 +55,15 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.3.2</version>
 		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-core -->
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
+
 
 	</dependencies>
 
