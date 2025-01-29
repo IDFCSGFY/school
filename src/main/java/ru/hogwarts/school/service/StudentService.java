@@ -32,5 +32,5 @@ public interface StudentService {
 
     Double getAvgAgeUsingStream();
 
-    Integer formula();
+    Long formula();
 }

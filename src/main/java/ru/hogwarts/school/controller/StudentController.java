@@ -61,7 +61,7 @@ public class StudentController {
     }
 
     @GetMapping("formula")
-    public ResponseEntity<Integer> formula() {
+    public ResponseEntity<Long> formula() {
         return ResponseEntity.ok(service.formula());
     }
 

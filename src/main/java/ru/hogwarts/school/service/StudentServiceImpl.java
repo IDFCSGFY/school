@@ -11,6 +11,7 @@ import ru.hogwarts.school.repository.StudentRepository;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -118,11 +119,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Integer formula() {
-        return IntStream
+    public Long formula() {
+        return LongStream
                 .iterate(1, a-> a+1)
                 .limit(1000000)
 //                .parallel()
-                .reduce(0, Integer::sum);
+                .reduce(0, Long::sum);
     }
 }
