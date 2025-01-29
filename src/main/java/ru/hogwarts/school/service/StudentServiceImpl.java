@@ -1,19 +1,16 @@
 package ru.hogwarts.school.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -99,5 +96,33 @@ public class StudentServiceImpl implements StudentService {
     public Collection<Student> getLastFiveStudents() {
         logger.info("StudentService getLastFiveStudents method is invoked");
         return List.copyOf(repository.getLastFiveStudents());
+    }
+
+    @Override
+    public Collection<String> getByFirstLetter(String letter) {
+        return repository.findAll().stream()
+                .map(Student::getName)
+                .map(StringUtils::capitalize)
+                .filter(e->e.startsWith(letter))
+                .sorted(Comparator.naturalOrder())
+                .toList();
+    }
+
+    @Override
+    public Double getAvgAgeUsingStream() {
+        return repository.findAll().stream()
+                .map(Student::getAge)
+                .flatMapToInt(IntStream::of)
+                .average()
+                .orElse(0D);
+    }
+
+    @Override
+    public Integer formula() {
+        return IntStream
+                .iterate(1, a-> a+1)
+                .limit(1000000)
+//                .parallel()
+                .reduce(0, Integer::sum);
     }
 }

@@ -50,6 +50,21 @@ public class StudentController {
         return ResponseEntity.ok(service.getLastFiveStudents());
     }
 
+    @GetMapping("getByFirstLetter")
+    public ResponseEntity<Collection<String>> getByFirstLetter(@RequestParam String letter) {
+        return ResponseEntity.ok(service.getByFirstLetter(letter));
+    }
+
+    @GetMapping("getAvgAge")
+    public ResponseEntity<Double> getAvgAge() {
+        return ResponseEntity.ok(service.getAvgAgeUsingStream());
+    }
+
+    @GetMapping("formula")
+    public ResponseEntity<Integer> formula() {
+        return ResponseEntity.ok(service.formula());
+    }
+
     @GetMapping("{id}/faculty")
     public ResponseEntity<Faculty> findFacultyOfStudent(@PathVariable long id) {
         return ResponseEntity.ok(service.findFacultyOfStudentById(id));

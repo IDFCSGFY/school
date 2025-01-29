@@ -1,5 +1,6 @@
 package ru.hogwarts.school.controller;
 
+import org.springframework.boot.autoconfigure.batch.BatchTransactionManager;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
@@ -30,6 +31,11 @@ public class FacultyController {
     @GetMapping("filter")
     public ResponseEntity<Collection<Faculty>> filterByColor(@RequestParam String color) {
         return ResponseEntity.ok(service.filterByColor(color));
+    }
+
+    @GetMapping("longestName")
+    public ResponseEntity<String> longestName() {
+        return ResponseEntity.ok(service.longestName());
     }
 
     @GetMapping("{id}/students")
