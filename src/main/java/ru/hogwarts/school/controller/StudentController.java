@@ -65,6 +65,17 @@ public class StudentController {
         return ResponseEntity.ok(service.formula());
     }
 
+    @GetMapping("print-parallel")
+    public ResponseEntity<Boolean> printParallel() {
+        return ResponseEntity.ok(service.printParallel());
+    }
+
+    @GetMapping("print-synchronized")
+    public ResponseEntity<Void> printSynchronized() {
+        service.printSynchronized();
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("{id}/faculty")
     public ResponseEntity<Faculty> findFacultyOfStudent(@PathVariable long id) {
         return ResponseEntity.ok(service.findFacultyOfStudentById(id));
