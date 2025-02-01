@@ -104,7 +104,7 @@ public class StudentServiceImpl implements StudentService {
         return repository.findAll().stream()
                 .map(Student::getName)
                 .map(StringUtils::capitalize)
-                .filter(e->e.startsWith(letter))
+                .filter(e -> e.startsWith(letter))
                 .sorted(Comparator.naturalOrder())
                 .toList();
     }
@@ -121,9 +121,51 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Long formula() {
         return LongStream
-                .iterate(1, a-> a+1)
+                .iterate(1, a -> a + 1)
                 .limit(1000000)
 //                .parallel()
                 .reduce(0, Long::sum);
+    }
+
+    @Override
+    public void printParallel() {
+        ArrayList<Student> l = (ArrayList<Student>) repository.findAll();
+        printFunction(l.get(0));
+        printFunction(l.get(1));
+
+        new Thread(() -> {
+            printFunction(l.get(2));
+            printFunction(l.get(3));
+        }).start();
+
+        new Thread(()->{
+            printFunction(l.get(4));
+            printFunction(l.get(5));
+        }).start();
+    }
+
+    @Override
+    public void printSynchronized() {
+        ArrayList<Student> l = (ArrayList<Student>) repository.findAll();
+        syncPrintFunction(l.get(0));
+        syncPrintFunction(l.get(1));
+
+        new Thread(() -> {
+            syncPrintFunction(l.get(2));
+            syncPrintFunction(l.get(3));
+        }).start();
+
+        new Thread(()->{
+            syncPrintFunction(l.get(4));
+            syncPrintFunction(l.get(5));
+        }).start();
+    }
+
+    private void printFunction(Student student) {
+        System.out.println(student);
+    }
+
+    private synchronized void syncPrintFunction(Student student) {
+        System.out.println(student);
     }
 }
