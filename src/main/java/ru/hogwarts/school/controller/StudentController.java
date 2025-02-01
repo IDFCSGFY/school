@@ -66,8 +66,9 @@ public class StudentController {
     }
 
     @GetMapping("print-parallel")
-    public ResponseEntity<Boolean> printParallel() {
-        return ResponseEntity.ok(service.printParallel());
+    public ResponseEntity<Void> printParallel() {
+        service.printParallel();
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("print-synchronized")

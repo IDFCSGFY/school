@@ -1,7 +1,6 @@
 package ru.hogwarts.school.service;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.sql.ast.tree.from.TableJoin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -129,7 +128,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Boolean printParallel() {
+    public void printParallel() {
         ArrayList<Student> l = (ArrayList<Student>) repository.findAll();
         printFunction(l.get(0));
         printFunction(l.get(1));
@@ -143,8 +142,6 @@ public class StudentServiceImpl implements StudentService {
             printFunction(l.get(4));
             printFunction(l.get(5));
         }).start();
-
-        return true;
     }
 
     @Override

@@ -34,7 +34,7 @@ public interface StudentService {
 
     Long formula();
 
-    Boolean printParallel();
+    void printParallel();
 
     void printSynchronized();
 }
