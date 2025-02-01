@@ -6,10 +6,7 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,5 +69,17 @@ public class FacultyServiceImpl implements FacultyService {
     @Override
     public Collection<Student> findStudentsOfFacultyById(long id) {
         return List.copyOf(repository.findById(id).get().getStudents());
+    }
+
+    @Override
+    public String longestName() {
+        return repository.findAll().stream()
+                .map(Faculty::getName)
+                .sorted(
+                        Comparator
+                                .comparing(String::length)
+                                .reversed())
+                .toList()
+                .get(0);
     }
 }

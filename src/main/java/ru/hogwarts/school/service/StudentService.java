@@ -27,4 +27,10 @@ public interface StudentService {
     Double getAverageAgeOfAllStudents();
 
     Collection<Student> getLastFiveStudents();
+
+    Collection<String> getByFirstLetter(String letter);
+
+    Double getAvgAgeUsingStream();
+
+    Long formula();
 }
